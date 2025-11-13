@@ -333,9 +333,10 @@ section::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-sub);
   font-size: 1.8rem;
-  margin: var(--spacing-6xl);
-  padding: var(--spacing-3xl);
+  margin: var(--spacing-xl);
+  padding: var(--spacing-xl);
 }
 
 /* ---------- Layout helpers ---------- */
