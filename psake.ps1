@@ -46,6 +46,49 @@ function Get-DeckFiles {
   }
 }
 
+# Helper: copy images referenced in markdown and Background.jpg to output folder
+function Copy-DeckAssets {
+  param(
+    [Parameter(Mandatory)] [string] $MarkdownPath,
+    [Parameter(Mandatory)] [string] $OutputDir
+  )
+
+  $mdDir = Split-Path -Path $MarkdownPath -Parent
+  $content = Get-Content -Path $MarkdownPath -Raw -ErrorAction Stop
+
+  # Find markdown image references: ![alt](path)
+  $mdImages = [regex]::Matches($content, '!\[.*?\]\(([^)]+)\)') | ForEach-Object { $_.Groups[1].Value }
+
+  # Find HTML img tags: <img src="path" ...>
+  $htmlImages = [regex]::Matches($content, '<img[^>]+src=["'']([^"'']+)["''][^>]*>', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) |
+    ForEach-Object { $_.Groups[1].Value }
+
+  # Combine and filter local paths (skip URLs)
+  $allImages = ($mdImages + $htmlImages) | Where-Object { $_ -and ($_ -notmatch '^https?://') }
+
+  foreach ($img in $allImages) {
+    # Resolve relative to markdown file location
+    $srcPath = Join-Path $mdDir $img | Resolve-Path -ErrorAction SilentlyContinue
+    if ($srcPath -and (Test-Path $srcPath)) {
+      $destPath = Join-Path $OutputDir (Split-Path -Leaf $srcPath)
+      if (-not (Test-Path $destPath)) {
+        Copy-Item -Path $srcPath -Destination $destPath -Force
+        Write-Host "  [asset] Copied $img -> $destPath" -ForegroundColor DarkGray
+      }
+    }
+  }
+
+  # Always copy Background.jpg if it exists in repo root
+  $bgPath = Join-Path $RootDir 'Background.jpg'
+  if (Test-Path $bgPath) {
+    $bgDest = Join-Path $OutputDir 'Background.jpg'
+    if (-not (Test-Path $bgDest)) {
+      Copy-Item -Path $bgPath -Destination $bgDest -Force
+      Write-Host "  [asset] Copied Background.jpg -> $bgDest" -ForegroundColor DarkGray
+    }
+  }
+}
+
 # Helper: export wrapper
 function Invoke-MarpExport {
   param(
@@ -59,6 +102,9 @@ function Invoke-MarpExport {
 
   $outDir = if ([string]::IsNullOrWhiteSpace($relDir)) { $DistDir } else { Join-Path $DistDir $relDir }
   if (-not (Test-Path $outDir)) { $null = New-Item -ItemType Directory -Path $outDir -Force }
+
+  # Copy image assets to output directory
+  Copy-DeckAssets -MarkdownPath $MarkdownPath -OutputDir $outDir
 
   $outFile = Join-Path $outDir ("$base.$Format")
 
