@@ -69,7 +69,7 @@
   /* light border */
 
   /* Typography */
-  --font-title: "Gotham Black", "Space Grotesk";
+  --font-title: "Space Grotesk", "Segoe UI", Arial, sans-serif;
   --font-sub: "Play", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -81,22 +81,22 @@
   --footer-h: 48px;
 }
 
-/* Optional: if you have brand webfonts, define them here
-@font-face {
-  font-family: 'BrandSans';
-  src: url('./BrandSans.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-:root { --font-sans: 'BrandSans', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-*/
-
 /* ---------- Base ---------- */
 section {
-  background: var(--bg) url('Background.jpg') center/cover no-repeat;
+  background-color: var(--bg);
+  background-image: url('Background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: var(--fg);
   line-height: 1.25;
+}
+
+/* Fallback if background image fails to load */
+@supports not (background: var(--bg) url('Background.jpg')) {
+  section {
+    background: var(--bg);
+  }
 }
 
 section * {
@@ -143,7 +143,7 @@ p {
 small,
 .muted {
   color: var(--muted);
-  font-size: 0.55rem;
+  font-size: 0.65rem;
 }
 
 strong {
@@ -163,6 +163,12 @@ a {
 
 a:hover {
   filter: brightness(1.2);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 ul,
@@ -240,7 +246,7 @@ table td {
 
 table thead th {
   text-transform: uppercase;
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   letter-spacing: 0.06em;
   color: var(--muted);
   border-bottom-color: color-mix(in srgb, var(--fg) 20%, var(--border));
@@ -250,19 +256,20 @@ table thead th {
 code {
   font-family: var(--font-mono);
   font-size: 0.58rem;
-  background: var(--hero-gradient);
-  color: var(--bg);
+  background: var(--tertiary-color);
+  color: #ffffff;
   padding: 0.12rem 0.3rem;
   border-radius: 8px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--tertiary-color);
 }
 
 pre code {
   display: block;
   padding: 0.5rem 0.6rem;
   border-radius: 12px;
-  border: 2px solid var(--border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: var(--tertiary-color);
+  border: 2px solid var(--tertiary-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* ---------- Header & Footer (use Marp header/footer directives) ---------- */
@@ -280,7 +287,7 @@ header {
   top: 32px;
   height: var(--header-h);
   color: var(--muted);
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
@@ -289,7 +296,7 @@ footer {
   bottom: 28px;
   height: var(--footer-h);
   color: var(--muted);
-  font-size: 0.55rem;
+  font-size: 0.65rem;
 }
 
 /* Optional slot for right‑aligned sponsor/logo in header */
@@ -349,7 +356,7 @@ section.title h2 {
 section.title .name {
   min-width: 15rem;
   max-width: 25rem;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   margin: 0.2rem 0;
   font-weight: 600;
   font-family: var(--font-sub);
@@ -367,7 +374,7 @@ section.title .name {
 section.title .handle {
   min-width: 15rem;
   max-width: 25rem;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   margin: 0.2rem 0;
   background: linear-gradient(var(--gradient-angle), var(--tertiary-color), var(--quaternary-color));
   font-family: var(--font-sub);
@@ -497,7 +504,7 @@ section.title>img.sponsor {
 
 /* Image caption */
 figcaption {
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   color: var(--muted);
   text-align: center;
   margin-top: 0.25rem;
@@ -508,7 +515,7 @@ section.title .name.compact,
 section.title .handle.compact {
   min-width: 12rem;
   max-width: 20rem;
-  font-size: 0.45rem;
+  font-size: 0.55rem;
   padding: 0.3rem 0.6rem;
 }
 
@@ -531,7 +538,7 @@ section.title .handle.auto-width {
 /* Enhanced tables with brand colors */
 table thead th {
   text-transform: uppercase;
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   letter-spacing: 0.06em;
   color: white;
   background: var(--secondary-color);
@@ -553,10 +560,6 @@ table tbody tr:hover {
 
 .right {
   text-align: right;
-}
-
-.muted {
-  color: var(--muted);
 }
 
 .accent {
@@ -619,7 +622,7 @@ table tbody tr:hover {
 }
 
 .small {
-  font-size: 0.55rem;
+  font-size: 0.65rem;
 }
 
 .large {
