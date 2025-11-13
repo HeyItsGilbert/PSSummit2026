@@ -96,6 +96,23 @@ Task Clean -Description 'Remove the dist/ output directory (fresh build)' {
   }
 }
 
+Task CopyTheme -Depends EnsureMarp -Description 'Copy theme CSS and assets to dist/' {
+  Write-Host "Copying theme files to $DistDir" -ForegroundColor Cyan
+
+  # Copy theme CSS
+  if (Test-Path $ThemeCss) {
+    Copy-Item -Path $ThemeCss -Destination $DistDir -Force
+    Write-Host "  Copied $(Split-Path $ThemeCss -Leaf)" -ForegroundColor Green
+  }
+
+  # Copy Background.jpg if it exists (used by the theme)
+  $backgroundPath = Join-Path $RootDir 'Background.jpg'
+  if (Test-Path $backgroundPath) {
+    Copy-Item -Path $backgroundPath -Destination $DistDir -Force
+    Write-Host "  Copied Background.jpg" -ForegroundColor Green
+  }
+}
+
 Task ExportHtml -Depends EnsureMarp -Description 'Export all decks (marp: true) to HTML under dist/' {
   $decks = Get-DeckFiles
   if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
@@ -114,6 +131,6 @@ Task ExportPptx -Depends EnsureMarp -Description 'Export all decks (marp: true) 
   foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format pptx }
 }
 
-Task ExportAll -Depends ExportHtml, ExportPdf, ExportPptx -Description 'Run HTML, PDF, and PPTX exports for all decks' {}
+Task ExportAll -Depends CopyTheme, ExportHtml, ExportPdf, ExportPptx -Description 'Run HTML, PDF, and PPTX exports for all decks' {}
 
 Task default -Depends ExportAll -Description 'Default task: export HTML, PDF, and PPTX for all decks'
