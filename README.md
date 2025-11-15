@@ -79,6 +79,78 @@ Get-ChildItem -Filter *.md | ForEach-Object {
 
 Modify output flags to export HTML or PDF instead.
 
+## Build Automation (build.ps1)
+
+This repository includes a **`build.ps1`** script powered by [psake](https://github.com/psake/psake) that automates exporting all your presentation decks. It discovers all `.md` files with `marp: true` in their front-matter and exports them to HTML, PDF, and PPTX formats in the `dist/` folder.
+
+### Prerequisites
+
+Install the Marp CLI globally:
+
+```powershell
+npm i -g @marp-team/marp-cli
+```
+
+### First-Time Setup
+
+Bootstrap build dependencies (psake and PSDepend):
+
+```powershell
+.\build.ps1 -Bootstrap
+```
+
+### List Available Tasks
+
+View all available build tasks:
+
+```powershell
+.\build.ps1 -Help
+```
+
+Available tasks include:
+- **default** / **ExportAll** - Export all decks to HTML, PDF, and PPTX
+- **ExportHtml** - Export all decks to HTML only
+- **ExportPdf** - Export all decks to PDF only
+- **ExportPptx** - Export all decks to PPTX only
+- **CopyTheme** - Copy theme CSS and background assets to `dist/`
+- **Clean** - Remove the `dist/` directory
+
+### Common Usage
+
+Run the default task (exports everything):
+
+```powershell
+.\build.ps1
+```
+
+Export to a specific format:
+
+```powershell
+# HTML only
+.\build.ps1 -Task ExportHtml
+
+# PDF only
+.\build.ps1 -Task ExportPdf
+
+# PPTX only
+.\build.ps1 -Task ExportPptx
+```
+
+Clean and rebuild everything:
+
+```powershell
+.\build.ps1 -Task Clean, ExportAll
+```
+
+### How It Works
+
+1. **Discovery**: Scans for all `*.md` files with `marp: true` in their YAML front-matter
+2. **Asset Handling**: Automatically copies referenced images and `Background.jpg` to the output folder
+3. **Export**: Runs `marp` CLI with the correct flags (`--theme-set`, `--allow-local-files`, etc.)
+4. **Output**: Places all exports in the `dist/` folder, preserving subfolder structure
+
+All decks are exported using the `summit-2026.css` theme automatically.
+
 ## Customize
 
 Edit `summit-2026.css` to change fonts, colors, or layout. The CSS includes:
