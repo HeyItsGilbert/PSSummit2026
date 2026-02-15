@@ -2,6 +2,9 @@
 # psakeFile.ps1 — Markdown Madness demo scaffolding for PS Summit 2026
 # ---------------------------------------------------------------------------
 # Called by build.ps1: ./build.ps1 ScaffoldAll | ScaffoldJekyll | Clean | ...
+#
+# All generator CLIs run inside Docker containers — no local Ruby, Python,
+# Go, or Node.js required. Only Docker needs to be installed.
 # ---------------------------------------------------------------------------
 
 # ── Shared Configuration ──────────────────────────────────────────────────
@@ -110,8 +113,12 @@ Task ScaffoldJekyll -Depends Init -Description 'Scaffold a Jekyll site and copy 
     if (Test-Path $sitePath) {
         Write-Host "[ScaffoldJekyll] $sitePath already exists — skipping scaffold."
     } else {
-        Write-Host "[ScaffoldJekyll] Running: jekyll new $sitePath --skip-bundle"
-        Exec { jekyll new $sitePath --skip-bundle }
+        New-Item -Path $sitePath -ItemType Directory -Force | Out-Null
+        Write-Host "[ScaffoldJekyll] Running: jekyll new (via Docker)"
+        Exec {
+            docker run --rm -v "${sitePath}:/site" ruby:3.3-slim `
+                sh -c 'gem install jekyll bundler --no-document && jekyll new /site --force --skip-bundle'
+        }
     }
 
     Write-Host "[ScaffoldJekyll] Copying sample content..."
@@ -149,8 +156,12 @@ Task ScaffoldMkDocs -Depends Init -Description 'Scaffold an MkDocs site and copy
     if (Test-Path $sitePath) {
         Write-Host "[ScaffoldMkDocs] $sitePath already exists — skipping scaffold."
     } else {
-        Write-Host "[ScaffoldMkDocs] Running: mkdocs new $sitePath"
-        Exec { mkdocs new $sitePath }
+        New-Item -Path $sitePath -ItemType Directory -Force | Out-Null
+        Write-Host "[ScaffoldMkDocs] Running: mkdocs new (via Docker)"
+        Exec {
+            docker run --rm -v "${sitePath}:/site" python:3.12-slim `
+                sh -c 'pip install --no-cache-dir mkdocs && mkdocs new /site'
+        }
     }
 
     Write-Host "[ScaffoldMkDocs] Copying sample content..."
@@ -190,16 +201,21 @@ Task ScaffoldHugo -Depends Init -Description 'Scaffold a Hugo site and copy samp
     if (Test-Path $sitePath) {
         Write-Host "[ScaffoldHugo] $sitePath already exists — skipping scaffold."
     } else {
-        Write-Host "[ScaffoldHugo] Running: hugo new site $sitePath"
-        Exec { hugo new site $sitePath }
+        New-Item -Path $sitePath -ItemType Directory -Force | Out-Null
+        Write-Host "[ScaffoldHugo] Running: hugo new site (via Docker)"
+        Exec {
+            docker run --rm -v "${sitePath}:/site" hugomods/hugo:exts `
+                hugo new site /site --force
+        }
     }
 
-    # Install the hugo-book theme via git submodule
+    # Install the hugo-book theme via git clone (inside Docker)
     $themePath = Join-Path $sitePath 'themes/hugo-book'
     if (-not (Test-Path $themePath)) {
-        Write-Host "[ScaffoldHugo] Installing hugo-book theme via git submodule..."
+        Write-Host "[ScaffoldHugo] Installing hugo-book theme via Docker..."
         Exec {
-            git -C $sitePath submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book
+            docker run --rm -v "${sitePath}:/site" hugomods/hugo:exts `
+                git clone --depth 1 https://github.com/alex-shpak/hugo-book.git /site/themes/hugo-book
         }
     } else {
         Write-Host "[ScaffoldHugo] Theme already installed."
@@ -242,8 +258,12 @@ Task ScaffoldDocusaurus -Depends Init -Description 'Scaffold a Docusaurus site a
     if (Test-Path $sitePath) {
         Write-Host "[ScaffoldDocusaurus] $sitePath already exists — skipping scaffold."
     } else {
-        Write-Host "[ScaffoldDocusaurus] Running: npx create-docusaurus@latest $sitePath classic"
-        Exec { npx --yes create-docusaurus@latest $sitePath classic --skip-install }
+        New-Item -Path $sitePath -ItemType Directory -Force | Out-Null
+        Write-Host "[ScaffoldDocusaurus] Running: create-docusaurus (via Docker)"
+        Exec {
+            docker run --rm -v "${sitePath}:/site" node:22-slim `
+                npx --yes create-docusaurus@latest /site classic --skip-install
+        }
     }
 
     Write-Host "[ScaffoldDocusaurus] Copying sample content..."
@@ -268,9 +288,11 @@ Task ScaffoldAstro -Depends Init -Description 'Scaffold an Astro Starlight site 
     if (Test-Path $sitePath) {
         Write-Host "[ScaffoldAstro] $sitePath already exists — skipping scaffold."
     } else {
-        Write-Host "[ScaffoldAstro] Running: npm create astro@latest -- --template starlight"
+        New-Item -Path $sitePath -ItemType Directory -Force | Out-Null
+        Write-Host "[ScaffoldAstro] Running: create-astro starlight (via Docker)"
         Exec {
-            npm create astro@latest -- $sitePath --template starlight --no-install --no-git --yes
+            docker run --rm -v "${sitePath}:/site" node:22-slim `
+                npx --yes create-astro@latest /site --template starlight --no-install --no-git --yes
         }
     }
 
