@@ -1,6 +1,7 @@
 {
   "_comment": "These rules allow for better compatibility with marp.",
   "MD001": false,
+  "MD004": false,
   "MD013": false,
   "MD025": false,
   "MD026": false,
