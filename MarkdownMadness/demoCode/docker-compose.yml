@@ -1,39 +1,44 @@
-# Markdown Madness - PS Summit 2026 - Offline Demo Backup
-# Usage: docker compose up
-# All 5 static site generators serve the same sample content on different ports.
+# Markdown Madness - PS Summit 2026
+# Serves scaffolded sites from ./sites/ via volume mounts.
+# Run ./build.ps1 ScaffoldAll first, then: docker compose up
 
 services:
   jekyll:
     build:
-      context: .
-      dockerfile: containers/jekyll/Dockerfile
+      context: containers/jekyll
+    volumes:
+      - ./sites/jekyll-demo:/site
     ports:
       - "4000:4000"
 
   mkdocs:
     build:
-      context: .
-      dockerfile: containers/mkdocs/Dockerfile
+      context: containers/mkdocs
+    volumes:
+      - ./sites/mkdocs-demo:/site
     ports:
       - "4001:8000"
 
   hugo:
     build:
-      context: .
-      dockerfile: containers/hugo/Dockerfile
+      context: containers/hugo
+    volumes:
+      - ./sites/hugo-demo:/site
     ports:
       - "4002:1313"
 
   docusaurus:
     build:
-      context: .
-      dockerfile: containers/docusaurus/Dockerfile
+      context: containers/docusaurus
+    volumes:
+      - ./sites/docusaurus-demo:/site
     ports:
       - "4003:3000"
 
   astro:
     build:
-      context: .
-      dockerfile: containers/astro/Dockerfile
+      context: containers/astro
+    volumes:
+      - ./sites/astro-demo:/site
     ports:
       - "4004:4321"
