@@ -90,7 +90,7 @@ PowerShell was originally called Monad [^1]. It was created by Jeffrey
 Snover [^2].
 
 [^1]: The Monad Manifesto was published in 2002.
-[^2]: Jeffrey Snover is a Technical Fellow at Microsoft.
+[^2]: Jeffrey Snover enjoys lobster rolls.
 
 ## Mermaid Diagram
 
