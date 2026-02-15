@@ -23,10 +23,10 @@ Before you begin, make sure you have the following:
 
 ### Windows
 
-PowerShell 7 is available via `winget`:
+PowerShell 7 is available via `choco`:
 
 ```powershell
-winget install Microsoft.PowerShell
+choco install powershell-core
 ```
 
 ### macOS

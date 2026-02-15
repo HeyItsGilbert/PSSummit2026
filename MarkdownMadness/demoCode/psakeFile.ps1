@@ -5,9 +5,13 @@
 # ---------------------------------------------------------------------------
 
 # ── Shared Configuration ──────────────────────────────────────────────────
-
-$script:DemoRoot    = Join-Path $PSScriptRoot 'sites'
-$script:ContentRoot = $PSScriptRoot   # docs/, blog/, images/ live under demoCode/
+Properties {
+    # Set script-scoped variables for content and output paths
+    # DemoRoot is where all scaffolded sites will be created (./sites/)
+    $script:DemoRoot = Join-Path $PSScriptRoot 'sites'
+    # ContentRoot is where our source markdown and assets live (./docs/, ./blog/, ./images/)
+    $script:ContentRoot = $PSScriptRoot   # docs/, blog/, images/ live under demoCode/
+}
 
 # ── Helper Function ───────────────────────────────────────────────────────
 
@@ -56,8 +60,8 @@ function Copy-SampleContent {
             # Inject additional front-matter keys when requested
             if ($FrontMatterKeys -and $FrontMatterKeys.Count -gt 0 -and $targetPath -match '\.md$') {
                 $yamlLines = ($FrontMatterKeys.GetEnumerator() | ForEach-Object {
-                    "$($_.Key): $($_.Value)"
-                }) -join "`n"
+                        "$($_.Key): $($_.Value)"
+                    }) -join "`n"
 
                 if ($content -match '^---\s*\r?\n') {
                     # Insert new keys right after the opening ---
@@ -107,16 +111,16 @@ Task ScaffoldJekyll -Depends Init -Description 'Scaffold a Jekyll site and copy 
         Write-Host "[ScaffoldJekyll] $sitePath already exists — skipping scaffold."
     } else {
         Write-Host "[ScaffoldJekyll] Running: jekyll new $sitePath --skip-bundle"
-        exec { jekyll new $sitePath --skip-bundle }
+        Exec { jekyll new $sitePath --skip-bundle }
     }
 
     Write-Host "[ScaffoldJekyll] Copying sample content..."
 
     # Doc pages get layout: page
     $docMap = @{
-        'docs/index.md'             = 'index.md'
-        'docs/getting-started.md'   = 'getting-started.md'
-        'docs/showcase.md'          = 'showcase.md'
+        'docs/index.md' = 'index.md'
+        'docs/getting-started.md' = 'getting-started.md'
+        'docs/showcase.md' = 'showcase.md'
     }
     $pageFM = [ordered]@{ layout = 'page' }
     Copy-SampleContent -Destination $sitePath -FileMap $docMap -FrontMatterKeys $pageFM
@@ -146,17 +150,17 @@ Task ScaffoldMkDocs -Depends Init -Description 'Scaffold an MkDocs site and copy
         Write-Host "[ScaffoldMkDocs] $sitePath already exists — skipping scaffold."
     } else {
         Write-Host "[ScaffoldMkDocs] Running: mkdocs new $sitePath"
-        exec { mkdocs new $sitePath }
+        Exec { mkdocs new $sitePath }
     }
 
     Write-Host "[ScaffoldMkDocs] Copying sample content..."
 
     $fileMap = @{
-        'docs/index.md'           = 'docs/index.md'
+        'docs/index.md' = 'docs/index.md'
         'docs/getting-started.md' = 'docs/getting-started.md'
-        'docs/showcase.md'        = 'docs/showcase.md'
-        'blog/morning-coffee.md'  = 'docs/morning-coffee.md'
-        'images'                  = 'docs/images'
+        'docs/showcase.md' = 'docs/showcase.md'
+        'blog/morning-coffee.md' = 'docs/morning-coffee.md'
+        'images' = 'docs/images'
     }
     Copy-SampleContent -Destination $sitePath -FileMap $fileMap
 
@@ -187,14 +191,14 @@ Task ScaffoldHugo -Depends Init -Description 'Scaffold a Hugo site and copy samp
         Write-Host "[ScaffoldHugo] $sitePath already exists — skipping scaffold."
     } else {
         Write-Host "[ScaffoldHugo] Running: hugo new site $sitePath"
-        exec { hugo new site $sitePath }
+        Exec { hugo new site $sitePath }
     }
 
     # Install the hugo-book theme via git submodule
     $themePath = Join-Path $sitePath 'themes/hugo-book'
     if (-not (Test-Path $themePath)) {
         Write-Host "[ScaffoldHugo] Installing hugo-book theme via git submodule..."
-        exec {
+        Exec {
             git -C $sitePath submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book
         }
     } else {
@@ -204,11 +208,11 @@ Task ScaffoldHugo -Depends Init -Description 'Scaffold a Hugo site and copy samp
     Write-Host "[ScaffoldHugo] Copying sample content..."
 
     $fileMap = @{
-        'docs/index.md'           = 'content/_index.md'
+        'docs/index.md' = 'content/_index.md'
         'docs/getting-started.md' = 'content/docs/getting-started.md'
-        'docs/showcase.md'        = 'content/docs/showcase.md'
-        'blog/morning-coffee.md'  = 'content/posts/morning-coffee.md'
-        'images'                  = 'static/images'
+        'docs/showcase.md' = 'content/docs/showcase.md'
+        'blog/morning-coffee.md' = 'content/posts/morning-coffee.md'
+        'images' = 'static/images'
     }
     Copy-SampleContent -Destination $sitePath -FileMap $fileMap
 
@@ -239,17 +243,17 @@ Task ScaffoldDocusaurus -Depends Init -Description 'Scaffold a Docusaurus site a
         Write-Host "[ScaffoldDocusaurus] $sitePath already exists — skipping scaffold."
     } else {
         Write-Host "[ScaffoldDocusaurus] Running: npx create-docusaurus@latest $sitePath classic"
-        exec { npx --yes create-docusaurus@latest $sitePath classic --skip-install }
+        Exec { npx --yes create-docusaurus@latest $sitePath classic --skip-install }
     }
 
     Write-Host "[ScaffoldDocusaurus] Copying sample content..."
 
     $fileMap = @{
-        'docs/index.md'           = 'docs/intro.md'
+        'docs/index.md' = 'docs/intro.md'
         'docs/getting-started.md' = 'docs/getting-started.md'
-        'docs/showcase.md'        = 'docs/showcase.md'
-        'blog/morning-coffee.md'  = 'blog/2026-02-15-morning-coffee.md'
-        'images'                  = 'static/img'
+        'docs/showcase.md' = 'docs/showcase.md'
+        'blog/morning-coffee.md' = 'blog/2026-02-15-morning-coffee.md'
+        'images' = 'static/img'
     }
     Copy-SampleContent -Destination $sitePath -FileMap $fileMap
 
@@ -265,7 +269,7 @@ Task ScaffoldAstro -Depends Init -Description 'Scaffold an Astro Starlight site 
         Write-Host "[ScaffoldAstro] $sitePath already exists — skipping scaffold."
     } else {
         Write-Host "[ScaffoldAstro] Running: npm create astro@latest -- --template starlight"
-        exec {
+        Exec {
             npm create astro@latest -- $sitePath --template starlight --no-install --no-git --yes
         }
     }
@@ -273,11 +277,11 @@ Task ScaffoldAstro -Depends Init -Description 'Scaffold an Astro Starlight site 
     Write-Host "[ScaffoldAstro] Copying sample content..."
 
     $fileMap = @{
-        'docs/index.md'           = 'src/content/docs/index.md'
+        'docs/index.md' = 'src/content/docs/index.md'
         'docs/getting-started.md' = 'src/content/docs/getting-started.md'
-        'docs/showcase.md'        = 'src/content/docs/showcase.md'
-        'blog/morning-coffee.md'  = 'src/content/docs/blog/morning-coffee.md'
-        'images'                  = 'public/images'
+        'docs/showcase.md' = 'src/content/docs/showcase.md'
+        'blog/morning-coffee.md' = 'src/content/docs/blog/morning-coffee.md'
+        'images' = 'public/images'
     }
     Copy-SampleContent -Destination $sitePath -FileMap $fileMap
 
@@ -299,6 +303,6 @@ Task BuildContainers -Depends Init -Description 'Build Docker containers for off
     }
 
     Write-Host "[BuildContainers] Running: docker compose build"
-    exec { docker compose -f $composePath build }
+    Exec { docker compose -f $composePath build }
     Write-Host "[BuildContainers] Container build complete."
 }

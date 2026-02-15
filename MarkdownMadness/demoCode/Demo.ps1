@@ -22,10 +22,10 @@ return
 # ---------------------------------------------------------------------------
 
 # Source content lives next to this script
-$contentRoot = $PSScriptRoot
-$docsSource  = Join-Path $contentRoot 'docs'
-$blogSource  = Join-Path $contentRoot 'blog'
-$sitesRoot   = Join-Path $contentRoot 'sites'
+$contentRoot = if ($PSScriptRoot) { $PSScriptRoot } else { Get-Location }
+$docsSource = Join-Path $contentRoot 'docs'
+$blogSource = Join-Path $contentRoot 'blog'
+$sitesRoot = Join-Path $contentRoot 'sites'
 
 Write-Host "Content root: $contentRoot" -ForegroundColor Cyan
 
@@ -38,7 +38,7 @@ Write-Host "Content root: $contentRoot" -ForegroundColor Cyan
 
 # What markdown files do we have?
 Get-ChildItem -Path $docsSource, $blogSource -Recurse -Filter '*.md' |
-    Select-Object FullName, Length
+  Select-Object FullName, Length
 
 # Open the showcase file to see what features we're testing
 code (Join-Path $docsSource 'showcase.md')
@@ -84,7 +84,7 @@ Get-ChildItem -Path (Join-Path $sitesRoot 'jekyll-demo' '_posts')
 
 # Check the injected front matter - layout: post was added
 Get-Content -Path (Join-Path $sitesRoot 'jekyll-demo' '_posts' '2026-02-15-morning-coffee.md') |
-    Select-Object -First 15
+  Select-Object -First 15
 
 # Now serve it with Docker (the container just mounts our scaffolded site)
 docker compose -f (Join-Path $contentRoot 'docker-compose.yml') up -d jekyll
@@ -140,7 +140,7 @@ docker compose -f (Join-Path $contentRoot 'docker-compose.yml') stop mkdocs
 
 # Hugo has a specific content structure
 Get-ChildItem -Path (Join-Path $sitesRoot 'hugo-demo') -Recurse -Depth 3 |
-    Select-Object FullName
+  Select-Object FullName
 
 # Check the hugo.toml config
 Get-Content -Path (Join-Path $sitesRoot 'hugo-demo' 'hugo.toml')
