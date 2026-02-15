@@ -1,0 +1,39 @@
+# Markdown Madness - PS Summit 2026 - Offline Demo Backup
+# Usage: docker compose up
+# All 5 static site generators serve the same sample content on different ports.
+
+services:
+  jekyll:
+    build:
+      context: .
+      dockerfile: containers/jekyll/Dockerfile
+    ports:
+      - "4000:4000"
+
+  mkdocs:
+    build:
+      context: .
+      dockerfile: containers/mkdocs/Dockerfile
+    ports:
+      - "4001:8000"
+
+  hugo:
+    build:
+      context: .
+      dockerfile: containers/hugo/Dockerfile
+    ports:
+      - "4002:1313"
+
+  docusaurus:
+    build:
+      context: .
+      dockerfile: containers/docusaurus/Dockerfile
+    ports:
+      - "4003:3000"
+
+  astro:
+    build:
+      context: .
+      dockerfile: containers/astro/Dockerfile
+    ports:
+      - "4004:4321"
