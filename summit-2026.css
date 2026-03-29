@@ -1,4 +1,7 @@
-/* @theme summit-2026 */
+/*
+@theme summit-2026
+@auto-scaling true
+*/
 
 /* Import the marp base */
 @import 'base';
@@ -32,9 +35,9 @@
   /* Slide size (16:9) */
   width: 1280px;
   height: 720px;
-  font-size: 36px;
+  font-size: 32px;
   /* Base type scale for rem units */
-  padding: 100px 80px;
+  padding: 70px;
   /* Large margin per Summit style */
 
   /* PowerShell Summit Official Colors */
@@ -100,17 +103,13 @@
 /* ---------- Base ---------- */
 section {
   background-color: var(--bg);
-  background-image: url('Background.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   color: var(--fg);
   line-height: 1.25;
 }
 
-/* Fallback if background image fails to load */
+/* Fallback if background image fails to load on title slide */
 @supports not (background: var(--bg) url('Background.jpg')) {
-  section {
+  section.title {
     background: var(--bg);
   }
 }
@@ -341,8 +340,17 @@ section::after {
 
 /* ---------- Layout helpers ---------- */
 /* Title slide — big title, name/handle, sponsor image slot */
-section.no_background {
-  background-image: none;
+section.with-background {
+  background-image: url('Background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+section.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 section.title {
@@ -351,6 +359,10 @@ section.title {
   align-content: center;
   justify-items: center;
   text-align: center;
+  background-image: url('Background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 section.title h1 {
@@ -652,6 +664,41 @@ table tbody tr:hover {
 
 .xlarge {
   font-size: 1.2rem;
+}
+
+/* ---------- Big-statement section-break slides ---------- */
+section.big-statement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-image: none;
+  background-color: var(--tertiary-color);
+}
+
+section.big-statement h1 {
+  background: var(--bg);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+section.big-statement h2 {
+  background: var(--quaternary-color);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+section.big-statement p {
+  color: var(--muted);
 }
 
 /* ---------- Print tweaks ---------- */
