@@ -1,0 +1,83 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install marp-cli
+        run: npm install -g @marp-team/marp-cli
+
+      - name: Bootstrap PowerShell dependencies
+        shell: pwsh
+        run: .\build.ps1 -Bootstrap
+
+      - name: Export all decks
+        shell: pwsh
+        run: .\build.ps1 -Task ExportAll
+
+      - name: Generate release tag
+        id: tag
+        shell: pwsh
+        run: |
+          $tag = "v$(Get-Date -Format 'yyyy.MM.dd').${{ github.run_number }}"
+          "tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Create release archive
+        shell: pwsh
+        run: Compress-Archive -Path dist\* -DestinationPath summit-2026-dist.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: Summit 2026 Decks ${{ steps.tag.outputs.tag }}
+          body: |
+            ## Slide Decks
+
+            Browse the sample presentation on GitHub Pages:
+            https://HeyItsGilbert.github.io/PSSummit2026/sample-presentation.html
+
+            Download the full archive below to get all HTML, PDF, and PPTX exports.
+          files: summit-2026-dist.zip
+          generate_release_notes: true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+  deploy-pages:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
