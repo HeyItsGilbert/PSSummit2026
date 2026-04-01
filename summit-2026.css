@@ -170,8 +170,7 @@ strong {
 }
 
 em {
-  color: var(--accent);
-  font-style: normal;
+  color: var(--accent-2);
 }
 
 a {
@@ -738,6 +737,10 @@ section.big-statement h2 {
 
 section.big-statement p {
   color: var(--muted);
+}
+
+section.big-statement em {
+  color: var(--accent);
 }
 
 /* ---------- Print tweaks ---------- */
