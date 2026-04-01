@@ -108,7 +108,7 @@ section {
 }
 
 /* Fallback if background image fails to load on title slide */
-@supports not (background: var(--bg) url('Background.jpg')) {
+@supports not (background: var(--bg) url('Background.png') no-repeat center/cover) {
   section.title {
     background: var(--bg);
   }
@@ -339,12 +339,51 @@ section::after {
 }
 
 /* ---------- Layout helpers ---------- */
+
+/* Two-column split layout */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-top: 0.5rem;
+}
+
 /* Title slide — big title, name/handle, sponsor image slot */
-section.with-background {
-  background-image: url('Background.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+/*
+  Background layers (back to front):
+    1. Background.png  — full-bleed decorative background
+    2. cc-by-sa.png    — CC BY SA badge, bottom-left corner
+    3. powershell-summit-logo.png — summit logo, top-right corner
+*/
+section.background {
+  background-image:
+    url('powershell-summit-logo.png'),
+    url('cc-by-sa.png'),
+    url('Background.png');
+  background-position:
+    top 20px right 20px,
+    bottom 20px left 20px,
+    center;
+  background-size:
+    auto 56px,
+    auto 40px,
+    cover;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
+/* Strips the full background but keeps the corner logos */
+section {
+  background-image:
+    url('powershell-summit-logo.png'),
+    url('cc-by-sa.png');
+  background-position:
+    top 20px right 20px,
+    bottom 20px left 20px;
+  background-size:
+    auto 56px,
+    auto 40px;
+  background-repeat: no-repeat, no-repeat;
 }
 
 section.centered {
@@ -359,7 +398,7 @@ section.title {
   align-content: center;
   justify-items: center;
   text-align: center;
-  background-image: url('Background.jpg');
+  background-image: url('Background.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

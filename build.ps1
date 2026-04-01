@@ -36,11 +36,11 @@ if ($Bootstrap.IsPresent) {
 }
 
 # Execute psake task(s)
-$psakeFile = './psake.ps1'
+$psakeFile = './psakefile.ps1'
 if ($PSCmdlet.ParameterSetName -eq 'Help') {
   Get-PSakeScriptTasks -BuildFile $psakeFile |
     Format-Table -Property Name, Description, Alias, DependsOn
 } else {
-  Invoke-psake -buildFile $psakeFile -taskList $Task -nologo -properties $Properties -parameters $Parameters
+  Invoke-Psake -BuildFile $psakeFile -TaskList $Task -NoLogo -Properties $Properties -Parameters $Parameters
   exit ([int](-not $psake.build_success))
 }

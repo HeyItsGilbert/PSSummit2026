@@ -1,10 +1,11 @@
 # Summit 2026 Marp Theme
 
-A custom Marp theme for building consistent, branded slide decks for the PowerShell + DevOps Global Summit 2026. This repo ships the theme stylesheet `summit-2026.css` plus example decks like `sample-presentation.md`.
+A custom Marp theme for building consistent, branded slide decks for the
+PowerShell + DevOps Global Summit 2026. This repo ships the theme stylesheet
+`summit-2026.css` plus example decks like `sample-presentation.md`.
 
 - Theme file: `./summit-2026.css`
-- Samples: `./sample-presentation.md` (+ HTML export), `./Burnout/Burnout.md`, `./MarkdownMadness/MarkdownMadness.md`
-- Full usage guide: see `AGENTS.md`
+- Samples: `./sample-presentation.md`
 
 ## Quick Start
 
@@ -81,7 +82,11 @@ Modify output flags to export HTML or PDF instead.
 
 ## Build Automation (build.ps1)
 
-This repository includes a **`build.ps1`** script powered by [psake](https://github.com/psake/psake) that automates exporting all your presentation decks. It discovers all `.md` files with `marp: true` in their front-matter and exports them to HTML, PDF, and PPTX formats in the `dist/` folder.
+This repository includes a **`build.ps1`** script powered by
+[psake](https://github.com/psake/psake) that automates exporting all your
+presentation decks. It discovers all `.md` files with `marp: true` in their
+front-matter and exports them to HTML, PDF, and PPTX formats in the `dist/`
+folder.
 
 ### Prerequisites
 
@@ -108,6 +113,7 @@ View all available build tasks:
 ```
 
 Available tasks include:
+
 - **default** / **ExportAll** - Export all decks to HTML, PDF, and PPTX
 - **ExportHtml** - Export all decks to HTML only
 - **ExportPdf** - Export all decks to PDF only
@@ -163,13 +169,17 @@ Deep dive and additional tips: see `AGENTS.md`.
 
 ## Contributing
 
-PRs welcome! When changing `summit-2026.css`, please include before/after screenshots (HTML export) and a short rationale (accessibility, consistency, performance). Avoid breaking existing class names.
+PRs welcome! When changing `summit-2026.css`, please include before/after
+screenshots (HTML export) and a short rationale (accessibility, consistency,
+performance). Avoid breaking existing class names.
 
 ## License / Usage
 
-Intended for internal Summit use. If publishing externally, retain attribution or reference the PowerShell + DevOps Global Summit branding where appropriate.
+Intended for internal Summit use. If publishing externally, retain attribution
+or reference the PowerShell + DevOps Global Summit branding where appropriate.
 
 ## References
 
 - Full theme guide in this repo: [`AGENTS.md`](./AGENTS.md)
-- Official Marp / Marpit theme authoring guide: [marpit.marp.app/theme-css](https://marpit.marp.app/theme-css)
+- Official Marp / Marpit theme authoring guide:
+  [marpit.marp.app/theme-css](https://marpit.marp.app/theme-css)

@@ -32,7 +32,11 @@ Task EnsureMarp -Description 'Verify marp CLI and theme file exist; ensure dist/
 # Helper: discover deck files that opt in with `marp: true`
 function Get-DeckFiles {
   $files = Get-ChildItem -Path $RootDir -Filter $Glob -Recurse -File |
-    Where-Object { $Exclude -notcontains $_.Name }
+    Where-Object {
+      $Exclude -notcontains $_.Name -and
+      # Exclude files whose path contains any directory segment starting with a dot
+      ($_.FullName.Substring($RootDir.Length) -split '[/\\]' | Where-Object { $_ -match '^\.' }).Count -eq 0
+    }
 
   foreach ($f in $files) {
     try {
@@ -46,7 +50,7 @@ function Get-DeckFiles {
   }
 }
 
-# Helper: copy images referenced in markdown and Background.jpg to output folder
+# Helper: copy images referenced in markdown and Background.png to output folder
 function Copy-DeckAssets {
   param(
     [Parameter(Mandatory)] [string] $MarkdownPath,
@@ -78,13 +82,19 @@ function Copy-DeckAssets {
     }
   }
 
-  # Always copy Background.jpg if it exists in repo root
-  $bgPath = Join-Path $RootDir 'Background.jpg'
-  if (Test-Path $bgPath) {
-    $bgDest = Join-Path $OutputDir 'Background.jpg'
-    if (-not (Test-Path $bgDest)) {
-      Copy-Item -Path $bgPath -Destination $bgDest -Force
-      Write-Host "  [asset] Copied Background.jpg -> $bgDest" -ForegroundColor DarkGray
+  # Always copy Background.png if it exists in repo root
+  @(
+    'Background.png',
+    'powershell-summit-logo.png',
+    'cc-by-sa.png'
+  ) | ForEach-Object {
+    $bgPath = Join-Path $RootDir $_
+    if (Test-Path $bgPath) {
+      $bgDest = Join-Path $OutputDir $_
+      if (-not (Test-Path $bgDest)) {
+        Copy-Item -Path $bgPath -Destination $bgDest -Force
+        Write-Host "  [asset] Copied $_ -> $bgDest" -ForegroundColor DarkGray
+      }
     }
   }
 }
@@ -151,32 +161,36 @@ Task CopyTheme -Depends EnsureMarp -Description 'Copy theme CSS and assets to di
     Write-Host "  Copied $(Split-Path $ThemeCss -Leaf)" -ForegroundColor Green
   }
 
-  # Copy Background.jpg if it exists (used by the theme)
-  $backgroundPath = Join-Path $RootDir 'Background.jpg'
+  # Copy Background.png if it exists (used by the theme)
+  $backgroundPath = Join-Path $RootDir 'Background.png'
   if (Test-Path $backgroundPath) {
     Copy-Item -Path $backgroundPath -Destination $DistDir -Force
-    Write-Host "  Copied Background.jpg" -ForegroundColor Green
+    Write-Host "  Copied Background.png" -ForegroundColor Green
   }
 }
 
-Task ExportHtml -Depends EnsureMarp -Description 'Export all decks (marp: true) to HTML under dist/' {
+Task ExportHtml -Depends EnsureMarp, Clean -Description 'Export all decks (marp: true) to HTML under dist/' {
   $decks = Get-DeckFiles
   if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
   foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format html }
 }
 
-Task ExportPdf -Depends EnsureMarp -Description 'Export all decks (marp: true) to PDF under dist/ (allows local files)' {
+Task ExportPdf -Depends EnsureMarp, Clean -Description 'Export all decks (marp: true) to PDF under dist/ (allows local files)' {
   $decks = Get-DeckFiles
   if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
   foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format pdf }
 }
 
-Task ExportPptx -Depends EnsureMarp -Description 'Export all decks (marp: true) to PPTX under dist/ (allows local files)' {
+Task ExportPptx -Depends EnsureMarp, Clean -Description 'Export all decks (marp: true) to PPTX under dist/ (allows local files)' {
   $decks = Get-DeckFiles
   if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
   foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format pptx }
 }
 
 Task ExportAll -Depends CopyTheme, ExportHtml, ExportPdf, ExportPptx -Description 'Run HTML, PDF, and PPTX exports for all decks' {}
+
+Task LaunchWebpages -Depends ExportHtml -Description 'Open the dist/ folder in the default file explorer' {
+  Get-ChildItem -Path $DistDir -Recurse -Filter *.html | ForEach-Object { Invoke-Item $_.FullName }
+}
 
 Task default -Depends ExportAll -Description 'Default task: export HTML, PDF, and PPTX for all decks'
