@@ -23,6 +23,17 @@ paginate: true
 
 ---
 
+<!-- _class: sponsors -->
+<!-- _paginate: skip -->
+
+# Thanks!
+
+<!--
+Gotta thank the sponsors!
+-->
+
+---
+
 <!-- _class: title -->
 # Brand Color <span class="primary">Showcase</span>
 
@@ -303,10 +314,10 @@ This presentation demonstrated:
 
 ### ✨ Complete Feature Set Cont
 
-6. **Styled lists** with colored markers
-7. **Professional blockquotes** with brand styling
-8. **Code highlighting** with gradient backgrounds
-9. **Typography hierarchy** using brand colors
+1. **Styled lists** with colored markers
+2. **Professional blockquotes** with brand styling
+3. **Code highlighting** with gradient backgrounds
+4. **Typography hierarchy** using brand colors
 
 </div>
 

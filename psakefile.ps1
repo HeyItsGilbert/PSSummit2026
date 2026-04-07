@@ -86,7 +86,8 @@ function Copy-DeckAssets {
   @(
     'Background.png',
     'powershell-summit-logo.png',
-    'cc-by-sa.png'
+    'cc-by-sa.png',
+    'PSHSummit26-Sponsors.png'
   ) | ForEach-Object {
     $bgPath = Join-Path $RootDir $_
     if (Test-Path $bgPath) {

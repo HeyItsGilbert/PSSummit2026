@@ -391,6 +391,27 @@ section.centered {
   justify-content: center;
 }
 
+/* Sponsors slide — sponsor logos as a background layer behind the corner logos */
+section.sponsors {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  background-image:
+    url('powershell-summit-logo.png'),
+    url('cc-by-sa.png'),
+    url('PSHSummit26-Sponsors.png');
+  background-position:
+    top 20px right 20px,
+    bottom 20px left 20px,
+    center 55%;
+  background-size:
+    auto 56px,
+    auto 40px,
+    85% auto;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
 section.title {
   display: grid;
   grid-template-rows: auto auto;
