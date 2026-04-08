@@ -1,7 +1,7 @@
 ---
 marp: true
 theme: summit-2026
-paginate: true
+paginate: false
 ---
 <!-- _class: title -->
 # <span class="black-text">Markdown Madness</span>
@@ -12,6 +12,8 @@ paginate: true
 <span class="handle">@HeyItsGilbert</span>
 
 <!---
+
+10:30a Thursday
 
 Description:
 You already write Markdown. README.md, meeting notes, maybe even your grocery list. But what if that Markdown could become a blog, a polished docs site, a personal resume, or even a link-in-bio page? Turns out, it can - and the tools are way cooler (and easier) than you think.
@@ -29,10 +31,18 @@ Key Take-Aways from your session:
 
 --->
 ---
+<!-- class: centered -->
 
-## Agenda
+# Agenda
 
 - Slides
+- 10m Break
+- Demos
+- Q&A
+
+<!--
+
+- Slides (~25m)
   - Markup Languages
   - Markdown Flavors
   - Static Sites
@@ -41,22 +51,32 @@ Key Take-Aways from your session:
 - Demos
 - Q&A
 
+I can fill 90m+ on this topic, but beyond just Q&A I want to step through real
+requests.
+-->
+
 ---
-<!-- _class: no_background --->
+
+<!-- _class: sponsors -->
+<!-- _paginate: skip -->
+
+# Thanks!
+
+---
 
 # Hey! It's Gilbert
 
 <!-- Author slide -->
 
-- Staff Software Development Engineer @ Tesla <span class="small">
-Formerly known as Senor Systems Engineer at Meta
-</span>
-- 🌶️🧠 ADHD
+- Staff Software Development Engineer
+- ADHD 🌶️🧠
 - [Links.GilbertSanchez.com](https://links.gilbertsanchez.com)
 
 ![bg right](image-2.png)
 
 <!--
+Formerly known as Senor Systems Engineer at Meta
+
 Audience Poll: Who has a blog?
 
 My history as a "webmaster"
@@ -64,25 +84,21 @@ My history as a "webmaster"
 
 ---
 
-# First: A Warning
+<!-- _class: big-statement -->
 
-<div class="callout primary">
-This is talk is mostly about markdown...
+# But First... A Warning
 
-But anything goes when it comes to static generation!
-</div>
+### _This talk is mostly about markdown... but anything goes when it comes to static generation!_
 
 ---
 <!-- transition: fade -->
-<!-- _class: no_background --->
+<!-- _class: big-statement --->
 
 # What is Markdown?
 
-A lightweight **markup** language for easily formatting text.
+### _A lightweight **markup** language for easily formatting text._
 
 ---
-
-<!-- _class: no_background --->
 
 # What is Markdown?
 
@@ -93,11 +109,11 @@ A lightweight **markup** language for easily formatting text.
 - reStructuredText (reST)
 
 ---
+<!-- _class: big-statement -->
 
-<span class="center">
+![you think thats ppt you're watching?](morpheus.gif)
 
-![you think thats ppt your reading?](image.png)
-</span>
+_You think this is PowerPoint you're watching?_
 
 <!--
 This is actually marp!
@@ -119,18 +135,6 @@ This is actually marp!
 [^1]: Give 5 stars
 </span>
 
----
-
-<!--
-header: ''
-footer: ''
--->
-
-<span class="center">
-
-![Obligatory XKCD: Standards](image-1.png)
-</span>
-
 <!--
 Flavors
 
@@ -139,9 +143,22 @@ Flavors
 - etc.
 
 -->
+
+---
+
+<!--
+header: ''
+_footer: 'https://xkcd.com/927/'
+-->
+
+![bg contain](image.png)
+
 ---
 
 # Hello world time!
+
+<div class="columns">
+<div>
 
 ```md
 # Hello
@@ -153,11 +170,22 @@ Hello world!
 I *like* them!
 ```
 
+</div>
+<div style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem;">
+
+<h1 style="font-size: 2rem; margin: 0.2em 0; color: var(--primary-color);">Hello</h1>
+<p style="font-size: 1.75rem; margin: 0.2em 0;">Hello world!</p>
+<h2 style="font-size: 1.85rem; margin: 0.4em 0 0.2em; color: var(--secondary-color);">Turtles</h2>
+<p style="font-size: 1.75rem; margin: 0.2em 0;">I <em>like</em> them!</p>
+
+</div>
+</div>
+
 ---
 
 # Front Matter
 
-Front matter is YAML (usually) at the top of the document that provides metadata or configuration.
+Front matter is YAML provides metadata or configuration.
 
 ```markdown
 ---
@@ -168,15 +196,19 @@ title: Hello
 Hello world!
 ```
 
+<!--
+There is also back matter at the bottom.
+-->
+
 ---
 
 # Static Sites
 
 Static sites are:
 
-1. Typically generated with a CLI tool
-2. Output as HTML.
-3. Dynamic sites changes
+1. CLI-generated
+2. Output as HTML
+3. No runtime server.
 
 ---
 
@@ -184,23 +216,16 @@ Static sites are:
 
 | Name | Lang | Good For |
 |--|--|--|
-| Jekyll | Ruby | Simple docs, blogs. |
-| MkDocs | Python | Documentation sites. |
+| Jekyll | Ruby | Docs, blogs. |
+| MkDocs | Python | Docs |
 | Hugo | Golang | Docs, Blogs, and more. |
-| Docusaurus | React | Documentation sites. |
-| Astro | Javascript | Docs, Blogs, and more. |
-
-<!---
-
-Target: ~ 3:45p
-
---->
+| Docusaurus | React | Docs |
 
 ---
 
 # Tools
 
-- markdownlint: Lint that offers best practices.
+- markdownlint: Markdown best practices.
 - Vale: Prose syntax.
 
 ---
@@ -214,26 +239,49 @@ Target: ~ 3:45p
 
 ---
 
+<!-- _class: no-bg -->
+
+# FrontMatter CMS
+
+VSCode Extension to punches above it's weight class.
+
+![screenshot of frontmatter CMS](image-1.png)
+
+---
+
+<!--
+
+Goal: 25m - ~11a
+
+--->
+
+# Deploying Services
+
+- GitHub Pages
+- Netlify
+- Cloudflare
+- Vercel
+- So many more...
+
+---
+
+<!-- _class: big-statement -->
 # Break Time  - 10m
 
 ```powershell
-$returnBy = (Get-Date).AddMinutes(10)
+Start-Sleep -Minutes 10
 ```
 
 ---
 
+<!-- _class: big-statement -->
 # Demo Time
 
 ---
-
-# Deploying
-
-- GitHub Pages
-- Netlify
-
----
 <!-- _class: title -->
+# <span class="gradient-text">THANK YOU</span>
 
-## <span class="black-text">THANK</span> <span class="purple-text">YOU!</span>
+## <span class="primary">Feedback</span> is a <span class="quaternary">gift</span>
 
-Feedback is a gift. Please review this session via the mobile app.
+<p class="name">Please review this session via the mobile app</p>
+<p class="handle">Questions? Find me @heyitsgilbert</p>

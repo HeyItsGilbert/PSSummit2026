@@ -1,4 +1,5 @@
 # Exit the script immediately in case of accidental run
+ConvertTo-Sixel -Url "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHN6eWo3ZjYwdjJieHNwdGRmd2ZuODIzNDR4cmVteG1sbGI4NXp3biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ohzdQ1IynzclJldUQ/giphy.gif"
 return
 
 # ============================================================================
@@ -41,7 +42,7 @@ Get-ChildItem -Path $docsSource, $blogSource -Recurse -Filter '*.md' |
   Select-Object FullName, Length
 
 # Open the showcase file to see what features we're testing
-code (Join-Path $docsSource 'showcase.md')
+cmd /c code $docsSource --profile "Demo"
 
 # >>> Walk through the front matter - notice the superset of keys
 # >>> (weight for Hugo, sidebar_position for Docusaurus)
