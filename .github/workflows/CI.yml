@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install marp-cli
+        run: npm install -g @marp-team/marp-cli
+
+      - name: Bootstrap PowerShell dependencies
+        shell: pwsh
+        run: .\build.ps1 -Bootstrap
+
+      - name: Export all decks
+        shell: pwsh
+        run: .\build.ps1 -Task ExportAll
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: summit-2026-decks
+          path: dist\*
