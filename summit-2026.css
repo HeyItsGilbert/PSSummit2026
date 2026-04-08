@@ -415,15 +415,15 @@ section.background {
   background-position:
     top 20px right 20px,
     bottom 20px left 20px,
-    center;
+    bottom;
   background-size:
     auto 56px,
     auto 40px,
-    cover;
+    95%;
   background-repeat: no-repeat, no-repeat, no-repeat;
 }
 
-/* Strips the full background but keeps the corner logos */
+/* Strips the background but keeps the cc-by-sa image and corner logo */
 section {
   background-image:
     url('powershell-summit-logo.png'),
@@ -470,10 +470,30 @@ section.title {
   align-content: center;
   justify-items: center;
   text-align: center;
-  background-image: url('Background.png');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image:
+    url('powershell-summit-logo.png'),
+    url('cc-by-sa.png'),
+    url('powershell-summit-logo-top-left.png'),
+    url('date.png'),
+    url('Background.png');
+  background-position:
+    top 20px right 20px,
+    bottom 20px left 20px,
+    top 40px left 40px,
+    bottom 40px center,
+    bottom;
+  background-size:
+    auto 56px,
+    auto 40px,
+    auto 56px,
+    auto 35px,
+    95%;
+  background-repeat:
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat,
+    no-repeat;
 }
 
 section.title h1 {
@@ -513,6 +533,7 @@ section.title .name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: var(--bg);
 }
 
 section.title .handle {
