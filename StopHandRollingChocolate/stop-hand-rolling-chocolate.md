@@ -14,6 +14,17 @@ author: Gilbert Sanchez
 <p class="name">Gilbert Sanchez</p>
 <p class="handle">@HeyItsGilbert</p>
 
+<!---
+2pm Monday
+---->
+
+---
+
+<!-- _class: sponsors -->
+<!-- _paginate: skip -->
+
+# Thanks!
+
 ---
 
 <!-- _class: centered -->
@@ -22,18 +33,17 @@ author: Gilbert Sanchez
 
 <!-- Author slide -->
 
-- Staff Software Development Engineer @ Tesla
-- Formerly known as Senor Systems Engineer at Meta
-- 🌶️🧠 ADHD
+- Staff Software Development Engineer
+- ADHD 🌶️🧠
 - [Links.GilbertSanchez.com](https://links.gilbertsanchez.com)
 
-![bg right](image-2.png)
+![bg right](profile.jpg)
 
 ---
 <!-- _class: centered -->
 # <!-- fit --> Hands Up ✋
 
-<!-- 
+<!--
 Speaker notes:
 Welcome everyone. Quick show of hands — who here manages Chocolatey packages? 
 Who's done it by hand? Keep that hand up if you've ever said "just run this script 
@@ -45,9 +55,10 @@ and then run that one." Yeah. That's what we're fixing today.
 <!-- class: centered -->
 # "Back in my day..."
 
-## The year is 2013. Panning shot to a young and eager Gilbert ripsticking down the hallway....
+## The year is 2013...
 
 <!--
+Panning shot to a young and eager Gilbert ripsticking down the hallway....
 Responsible for lots of things.
 Patching, vmware, etc.
 --->
@@ -81,10 +92,9 @@ That doesn't scale. It barely works at 10 packages.
 
 ## Except your devs are on **Macs**.
 
-- POSIX handles file locking differently
-- Windows-specific paths, encodings, behaviors
-- Packaging Windows software felt like a **foreign language**
-- So teams just... didn't support Windows
+* File locking differently
+* Windows-specific paths, encodings, behaviors
+* Packaging Windows software felt like a **foreign language**
 
 _Extra friction became an extra excuse._
 
@@ -182,9 +192,9 @@ No Chocolatey-specific magic. Just PowerShell with convenience functions on top.
 
 ---
 
-## Extensions & Hooks
+## Extensions
 
-**Extensions** — add new functions to any package
+Add new functions to any package
 
 ```
 mycompany-chocolatey-extension/
@@ -192,7 +202,11 @@ mycompany-chocolatey-extension/
     └── mycompany-helpers.psm1  ← imported automatically
 ```
 
-**Hooks** — run logic around every install
+---
+
+## Hooks
+
+Run logic around every install
 
 ```
 mycompany-hooks/
@@ -272,12 +286,8 @@ That's not a people problem. That's an automation problem.
 ```powershell
 Task Default -depends Pack
 
-Task Validate -description "Check the nuspec is valid" {
-    exec { choco validate .\mypackage.nuspec }
-}
-
-Task Test -depends Validate -description "Run Pester tests" {
-    exec { Invoke-Pester }
+Task Test -depends -description "Run Pester tests" {
+    Invoke-Pester .\Tests\
 }
 
 Task Pack -depends Test -description "Build the .nupkg" {
@@ -306,14 +316,11 @@ Your build script is now self-documenting. Sarah doesn't need to read the README
 Push  (only on main)
  └── Pack
       └── Test
-           └── Validate
 ```
 
 Run everything: `Invoke-psake`
 
 Run just tests: `Invoke-psake -taskList Test`
-
-See what's available: `Invoke-psake -docs`
 
 <br>
 
@@ -390,7 +397,7 @@ If you want to follow along, the repo will be linked at the end.
 Demo script:
 1. gh repo create choco-psake-demo --public
 2. choco new mypackage — show the generated structure
-3. Write psakefile.ps1 with Validate, Test, Pack, Push tasks
+3. Write psakefile.ps1 with Test, Pack, Push tasks
 4. Add nuspec XML schema validation task
 5. Add Pester test for package metadata
 6. Run Invoke-psake locally — watch it pass
@@ -408,7 +415,6 @@ Demo script:
 
 | Step | What it does |
 |---|---|
-| `Invoke-psake Validate` | Checks the nuspec XML is valid |
 | `Invoke-psake Test` | Runs Pester tests against the package |
 | `Invoke-psake Pack` | Builds the `.nupkg` |
 | `Invoke-psake Push` | Publishes — but only from main |
@@ -433,11 +439,10 @@ You still get:
 
 <div class="checklist">
 
-- Auto-publish on merge — no manual push steps
-- Validated nuspec XML — catch errors before they ship
-- Pester tests — know it works before your users find out it doesn't
-- Extensions — your org's logic in one place, not copy-pasted everywhere
-- Hooks — compliance, logging, CDN routing — free for every package
+- Auto-publish on merge
+- Validated nuspec XML
+- Pester tests
+- Extensions & Hooks
 
 </div>
 
@@ -451,6 +456,12 @@ auto-publishing — these pay off at 5 packages just as much as 500.
 You get your Saturday afternoons back. You stop being the person
 who has to manually push a release because nobody else knows how.
 That's worth it at any scale.
+
+- Auto-publish on merge — no manual push steps
+- Validated nuspec XML — catch errors before they ship
+- Pester tests — know it works before your users find out it doesn't
+- Extensions — your org's logic in one place, not copy-pasted everywhere
+- Hooks — compliance, logging, CDN routing — free for every package
 -->
 
 ---
@@ -501,7 +512,9 @@ I'm around for questions — thank you.
 ---
 
 <!-- _class: title -->
+# <span class="gradient-text">THANK YOU</span>
 
-## THANK YOU!
+## <span class="primary">Feedback</span> is a <span class="quaternary">gift</span>
 
-Feedback is a gift. Please review this session via the mobile app.
+<p class="name">Please review this session via the mobile app</p>
+<p class="handle">Questions? Find me @heyitsgilbert</p>
