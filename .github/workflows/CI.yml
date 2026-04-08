@@ -36,7 +36,7 @@ jobs:
         run: .\build.ps1 -Task ExportAll
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: summit-2026-decks
           path: dist\*
