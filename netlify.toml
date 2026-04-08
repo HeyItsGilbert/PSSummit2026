@@ -1,0 +1,13 @@
+# Build is handled by GitHub Actions, not Netlify's build system.
+# We deploy the pre-built dist/ folder via the nwtgck/actions-netlify action.
+
+[build]
+  publish = "."
+  command = "# no-op"
+  ignore = "exit 0"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
