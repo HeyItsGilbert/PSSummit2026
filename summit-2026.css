@@ -270,8 +270,8 @@ table thead th {
   border-bottom-color: color-mix(in srgb, var(--fg) 20%, var(--border));
 }
 
-/* Code */
-code {
+/* Code — inline */
+:not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.58rem;
   background: var(--tertiary-color);
@@ -281,13 +281,65 @@ code {
   border: 1px solid var(--tertiary-color);
 }
 
+/* Code — blocks */
 pre code {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
   display: block;
   padding: var(--spacing-2xl) var(--spacing-3xl);
   border-radius: 12px;
   background: var(--tertiary-color);
+  color: #e0e0e0;
   border: 2px solid var(--tertiary-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Syntax highlighting — dark-friendly overrides */
+pre .hljs-keyword,
+pre .hljs-selector-tag,
+pre .hljs-built_in,
+pre .hljs-literal {
+  color: #569cd6;
+}
+
+pre .hljs-string,
+pre .hljs-template-variable {
+  color: #ce9178;
+}
+
+pre .hljs-title,
+pre .hljs-type,
+pre .hljs-tag {
+  color: #4ec9b0;
+}
+
+pre .hljs-name,
+pre .hljs-attribute {
+  color: #9cdcfe;
+}
+
+pre .hljs-variable,
+pre .hljs-params {
+  color: #9cdcfe;
+}
+
+pre .hljs-comment,
+pre .hljs-doctag {
+  color: #6a9955;
+  font-style: italic;
+}
+
+pre .hljs-number {
+  color: #b5cea8;
+}
+
+pre .hljs-symbol,
+pre .hljs-bullet {
+  color: #d4d4d4;
+}
+
+pre .hljs-meta {
+  color: #dcdcaa;
 }
 
 /* ---------- Header & Footer (use Marp header/footer directives) ---------- */
