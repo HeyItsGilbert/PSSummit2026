@@ -4,7 +4,7 @@ theme: summit-2026
 paginate: false
 ---
 <!-- _class: title -->
-# <span class="black-text">Markdown Madness</span>
+# Markdown Madness
 
 ## <span class="purple-text">Static Sites for Fun & Profit</span>
 
@@ -72,7 +72,7 @@ requests.
 - ADHD 🌶️🧠
 - [Links.GilbertSanchez.com](https://links.gilbertsanchez.com)
 
-![bg right](image-2.png)
+![bg right](profile.jpg)
 
 <!--
 Formerly known as Senor Systems Engineer at Meta
@@ -212,21 +212,79 @@ Static sites are:
 
 ---
 
-# Static Site Generators
+<!-- _backgroundColor: #fbe9e7 -->
 
-| Name | Lang | Good For |
-|--|--|--|
-| Jekyll | Ruby | Docs, blogs. |
-| MkDocs | Python | Docs |
-| Hugo | Golang | Docs, Blogs, and more. |
-| Docusaurus | React | Docs |
+# Jekyll
+
+![bg right:35% contain](jekyll-logo.png)
+
+- Written in **Ruby**
+- Great for docs and blogs
+- GitHub Pages built-in support
+- Liquid templating
+- Mature ecosystem with many themes
+
+<!--
+The OG of static site generators. Been around since 2008.
+GitHub Pages runs Jekyll natively — zero config deploy.
+-->
 
 ---
 
-# Tools
+<!-- _backgroundColor: #e0f2f1 -->
 
-- markdownlint: Markdown best practices.
-- Vale: Prose syntax.
+# MkDocs
+
+![bg left:35% contain](mkdocs-logo.png)
+
+- Written in **Python**
+- Purpose-built for documentation
+- Material for MkDocs theme is excellent
+- Simple `mkdocs.yml` configuration
+- Live reload dev server
+
+<!--
+If you're documenting a project, this is probably the one.
+Material theme makes it look professional with minimal effort.
+-->
+
+---
+
+<!-- _backgroundColor: #fff8e1 -->
+
+# Hugo
+
+![bg right:40% contain](hugo-logo.svg)
+
+- Written in **Go**
+- Blazingly fast builds
+- Docs, blogs, portfolios, and more
+- Powerful templating and shortcodes
+- Single binary, no dependencies
+
+<!--
+Hugo is the Swiss Army knife. Fast builds even with thousands of pages.
+Great if you want more than just docs.
+-->
+
+---
+
+<!-- _backgroundColor: #e8f5e9 -->
+
+# Docusaurus
+
+![bg left:35% contain](docusaurus-logo.png)
+
+- Written in **React**
+- Built for documentation sites
+- MDX support (Markdown + JSX)
+- Versioned docs out of the box
+- Built-in search and i18n
+
+<!--
+From Meta (Facebook). If your team already knows React, this is a natural fit.
+MDX lets you embed interactive components in your docs.
+-->
 
 ---
 
@@ -236,6 +294,7 @@ Static sites are:
 - markdownlint
 - Reflow Markdown
 - Markdown All in One
+- Marp for VS Code
 
 ---
 
@@ -246,6 +305,17 @@ Static sites are:
 VSCode Extension to punches above it's weight class.
 
 ![screenshot of frontmatter CMS](image-1.png)
+
+---
+
+# Tools
+
+- markdownlint: Markdown best practices.
+- Vale: Prose syntax.
+- alex: Catch insensitive writing.
+- Docker: Run in a container.
+
+_Maybe Your Favorite LLM?_
 
 ---
 
