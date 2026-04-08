@@ -29,6 +29,15 @@ Key Take-Aways from your session:
 
 ---
 
+<!-- _class: sponsors -->
+<!-- _paginate: skip -->
+
+# Thanks!
+
+---
+
+<!-- class: centered -->
+
 # Our Goal
 
 By the end of this talk you will understand:
@@ -113,6 +122,7 @@ For those who aren't familiar, the "bus factor" is the idea that if someone wher
 4. Not Interested in Maintaining
 
 ---
+<!-- _class: no-background -->
 
 <!-- _footer: Photo by Natalie Pedigo on Unsplash --->
 
@@ -131,10 +141,9 @@ Photo by <a href="https://unsplash.com/@nataliepedigo?utm_source=unsplash&utm_me
 
 1) Distribute responsibilities
 2) Growth Opportunities
-3) Benefit from new perspectives
-4) Soft skill career signal
-5) Opportunity to work with people
-6) Reduce the "bus factor"
+3) Soft skill career signal
+4) Opportunity to work with people
+5) Reduce the "bus factor"
 
 ---
 
@@ -160,7 +169,7 @@ Transition: My first project was documentation.
 
 ---
 
-<!-- _class: title -->
+<!-- _class: big-statement -->
 
 # Free for FOSS
 
@@ -221,7 +230,7 @@ First learned about it via Pester
 
 ---
 
-<!--- _class: title -->
+<!--- _class: big-statement -->
 
 # But Wait! There's more
 
@@ -336,10 +345,22 @@ A healthy project attracts community. Community
 --->
 
 ---
-<!-- _class: title -->
-# <span class="black-text">THANK</span> <span class="purple-text">YOU!</span>
 
-Feedback is a gift. Please review this session via the mobile app.
+<!-- _class: centered no_background -->
+<!-- _paginate: skip -->
+
+# Sponsors
+
+![w:900](../PSHSummit26-Sponsors.png)
+
+---
+<!-- _class: title -->
+# <span class="gradient-text">THANK YOU</span>
+
+## <span class="primary">Feedback</span> is a <span class="quaternary">gift</span>
+
+<p class="name">Please review this session via the mobile app</p>
+<p class="handle">Questions? Find me @heyitsgilbert</p>
 
 <!--
 Target: 11:50a
