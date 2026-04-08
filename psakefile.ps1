@@ -1,3 +1,5 @@
+Version 5
+
 # psake build script for Summit 2026 Marp theme exports
 
 Properties {
@@ -153,45 +155,127 @@ Task Clean -Description 'Remove the dist/ output directory (fresh build)' {
   }
 }
 
-Task CopyTheme -Depends EnsureMarp -Description 'Copy theme CSS and assets to dist/' {
-  Write-Host "Copying theme files to $DistDir" -ForegroundColor Cyan
-
-  # Copy theme CSS
-  if (Test-Path $ThemeCss) {
-    Copy-Item -Path $ThemeCss -Destination $DistDir -Force
-    Write-Host "  Copied $(Split-Path $ThemeCss -Leaf)" -ForegroundColor Green
+Task 'CopyTheme' @{
+  DependsOn = 'EnsureMarp'
+  Description = 'Copy theme CSS and assets to dist/'
+  Inputs = {
+    @($ThemeCss, (Join-Path $RootDir 'Background.png')) | Where-Object { Test-Path $_ } | Get-Item
   }
+  Outputs = {
+    @($ThemeCss, (Join-Path $RootDir 'Background.png')) |
+      Where-Object { Test-Path $_ } |
+      ForEach-Object { Join-Path $DistDir (Split-Path $_ -Leaf) } |
+      Where-Object { Test-Path $_ } |
+      Get-Item
+  }
+  Action = {
+    Write-Host "Copying theme files to $DistDir" -ForegroundColor Cyan
 
-  # Copy Background.png if it exists (used by the theme)
-  $backgroundPath = Join-Path $RootDir 'Background.png'
-  if (Test-Path $backgroundPath) {
-    Copy-Item -Path $backgroundPath -Destination $DistDir -Force
-    Write-Host "  Copied Background.png" -ForegroundColor Green
+    # Copy theme CSS
+    if (Test-Path $ThemeCss) {
+      Copy-Item -Path $ThemeCss -Destination $DistDir -Force
+      Write-Host "  Copied $(Split-Path $ThemeCss -Leaf)" -ForegroundColor Green
+    }
+
+    # Copy Background.png if it exists (used by the theme)
+    $backgroundPath = Join-Path $RootDir 'Background.png'
+    if (Test-Path $backgroundPath) {
+      Copy-Item -Path $backgroundPath -Destination $DistDir -Force
+      Write-Host "  Copied Background.png" -ForegroundColor Green
+    }
   }
 }
 
-Task ExportHtml -Depends EnsureMarp, Clean -Description 'Export all decks (marp: true) to HTML under dist/' {
-  $decks = Get-DeckFiles
-  if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
-  foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format html }
+Task 'ExportHtml' @{
+  DependsOn = 'EnsureMarp'
+  Description = 'Export all decks (marp: true) to HTML under dist/'
+  Inputs = { @(Get-DeckFiles) + @(Get-Item $ThemeCss) }
+  Outputs = { Get-ChildItem -Path $DistDir -Recurse -Filter *.html -ErrorAction SilentlyContinue }
+  Action = {
+    $decks = Get-DeckFiles
+    if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
+    foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format html }
+  }
 }
 
-Task ExportPdf -Depends EnsureMarp, Clean -Description 'Export all decks (marp: true) to PDF under dist/ (allows local files)' {
-  $decks = Get-DeckFiles
-  if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
-  foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format pdf }
+Task 'ExportPdf' @{
+  DependsOn = 'EnsureMarp'
+  Description = 'Export all decks (marp: true) to PDF under dist/ (allows local files)'
+  Inputs = { @(Get-DeckFiles) + @(Get-Item $ThemeCss) }
+  Outputs = { Get-ChildItem -Path $DistDir -Recurse -Filter *.pdf -ErrorAction SilentlyContinue }
+  Action = {
+    $decks = Get-DeckFiles
+    if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
+    foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format pdf }
+  }
 }
 
-Task ExportPptx -Depends EnsureMarp, Clean -Description 'Export all decks (marp: true) to PPTX under dist/ (allows local files)' {
-  $decks = Get-DeckFiles
-  if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
-  foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format pptx }
+Task 'ExportPptx' @{
+  DependsOn = 'EnsureMarp'
+  Description = 'Export all decks (marp: true) to PPTX under dist/ (allows local files)'
+  Inputs = { @(Get-DeckFiles) + @(Get-Item $ThemeCss) }
+  Outputs = { Get-ChildItem -Path $DistDir -Recurse -Filter *.pptx -ErrorAction SilentlyContinue }
+  Action = {
+    $decks = Get-DeckFiles
+    if (-not $decks) { Write-Warning 'No decks found with marp: true'; return }
+    foreach ($d in $decks) { Invoke-MarpExport -MarkdownPath $d.FullName -Format pptx }
+  }
 }
 
 Task ExportAll -Depends CopyTheme, ExportHtml, ExportPdf, ExportPptx -Description 'Run HTML, PDF, and PPTX exports for all decks' {}
+
+Task 'GenerateIndex' @{
+  DependsOn = 'ExportAll'
+  Description = 'Generate an index.html linking to all exported decks'
+  Action = {
+    $htmlFiles = Get-ChildItem -Path $DistDir -Recurse -Filter '*.html' |
+      Where-Object { $_.Name -ne 'index.html' } |
+      Sort-Object FullName
+
+    $links = foreach ($f in $htmlFiles) {
+      $rel = $f.FullName.Substring($DistDir.Length + 1) -replace '\\', '/'
+      $name = [IO.Path]::GetFileNameWithoutExtension($f.Name) -replace '-', ' '
+      # Split on camelCase/PascalCase boundaries then title-case
+      $name = ($name -creplace '([a-z])([A-Z])', '$1 $2')
+      $name = (Get-Culture).TextInfo.ToTitleCase($name)
+      "      <li><a href=`"$rel`">$name</a></li>"
+    }
+
+    $html = @"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Summit 2026 Decks</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 600px; margin: 4rem auto; padding: 0 1rem; }
+    h1 { margin-bottom: 0.25rem; }
+    p { color: #666; margin-top: 0; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.75rem 0; }
+    a { color: #6d28d9; text-decoration: none; font-size: 1.125rem; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Summit 2026 Decks</h1>
+  <p>PowerShell + DevOps Global Summit</p>
+  <ul>
+$($links -join "`n")
+  </ul>
+</body>
+</html>
+"@
+
+    $indexPath = Join-Path $DistDir 'index.html'
+    Set-Content -Path $indexPath -Value $html -Encoding utf8
+    Write-Host "[index] Generated $indexPath" -ForegroundColor Cyan
+  }
+}
 
 Task LaunchWebpages -Depends ExportHtml -Description 'Open the dist/ folder in the default file explorer' {
   Get-ChildItem -Path $DistDir -Recurse -Filter *.html | ForEach-Object { Invoke-Item $_.FullName }
 }
 
-Task default -Depends ExportAll -Description 'Default task: export HTML, PDF, and PPTX for all decks'
+Task default -Depends GenerateIndex -Description 'Default task: export all decks and generate index'
