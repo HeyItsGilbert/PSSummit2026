@@ -23,13 +23,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
       - name: Install marp-cli
-        run: npm install -g @marp-team/marp-cli
+        shell: pwsh
+        run: |
+          $version = "4.3.1"
+          $url = "https://github.com/marp-team/marp-cli/releases/download/v${version}/marp-cli-v${version}-win.zip"
+          Invoke-WebRequest -Uri $url -OutFile marp-cli.zip
+          Expand-Archive -Path marp-cli.zip -DestinationPath marp-cli
+          "marp-cli" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
 
       - name: Export all decks
         shell: pwsh
