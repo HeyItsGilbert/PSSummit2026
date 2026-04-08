@@ -4,7 +4,7 @@ theme: summit-2026
 paginate: true
 ---
 <!-- _class: title -->
-# <span class="black-text">FROM BURNOUT TO <br/>BUILT-TO-LAST</span>
+# FROM BURNOUT TO <br/>BUILT-TO-LAST
 
 ## <span class="purple-text">The Open Source Org Advantage</span>
 
@@ -33,6 +33,19 @@ Key Take-Aways from your session:
 <!-- _paginate: skip -->
 
 # Thanks!
+
+---
+<!-- class: centered -->
+
+# Hey! It's Gilbert
+
+<!-- Author slide -->
+
+- Staff Software Development Engineer
+- ADHD 🌶️🧠
+- [Links.GilbertSanchez.com](https://links.gilbertsanchez.com)
+
+![bg right](profile.jpg)
 
 ---
 
@@ -343,15 +356,6 @@ It starts with a mind set shift.
 
 A healthy project attracts community. Community 
 --->
-
----
-
-<!-- _class: centered no_background -->
-<!-- _paginate: skip -->
-
-# Sponsors
-
-![w:900](../PSHSummit26-Sponsors.png)
 
 ---
 <!-- _class: title -->
