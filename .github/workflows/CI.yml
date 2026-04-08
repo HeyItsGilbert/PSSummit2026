@@ -27,13 +27,9 @@ jobs:
       - name: Install marp-cli
         run: npm install -g @marp-team/marp-cli
 
-      - name: Bootstrap PowerShell dependencies
-        shell: pwsh
-        run: .\build.ps1 -Bootstrap
-
       - name: Export all decks
         shell: pwsh
-        run: .\build.ps1 -Task ExportAll
+        run: .\build.ps1 -Bootstrap
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
