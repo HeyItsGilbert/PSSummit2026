@@ -96,13 +96,13 @@ My history as a "webmaster"
 
 # What is Markdown?
 
-### _A lightweight **markup** language for easily formatting text._
+### _A lightweight __markup__ language for easily formatting text._
 
 ---
 
 # What is Markdown?
 
-A lightweight **markup** language for easily formatting text.
+A lightweight __markup__ language for easily formatting text.
 
 - Markdown (md)
 - Asciidoc (adoc)
@@ -218,7 +218,7 @@ Static sites are:
 
 ![bg right:35% contain](jekyll-logo.png)
 
-- Written in **Ruby**
+- Written in __Ruby__
 - Great for docs and blogs
 - GitHub Pages built-in support
 - Liquid templating
@@ -237,7 +237,7 @@ GitHub Pages runs Jekyll natively — zero config deploy.
 
 ![bg left:35% contain](mkdocs-logo.png)
 
-- Written in **Python**
+- Written in __Python__
 - Purpose-built for documentation
 - Material for MkDocs theme is excellent
 - Simple `mkdocs.yml` configuration
@@ -256,7 +256,7 @@ Material theme makes it look professional with minimal effort.
 
 ![bg right:40% contain](hugo-logo.svg)
 
-- Written in **Go**
+- Written in __Go__
 - Blazingly fast builds
 - Docs, blogs, portfolios, and more
 - Powerful templating and shortcodes
@@ -275,7 +275,7 @@ Great if you want more than just docs.
 
 ![bg left:35% contain](docusaurus-logo.png)
 
-- Written in **React**
+- Written in __React__
 - Built for documentation sites
 - MDX support (Markdown + JSX)
 - Versioned docs out of the box
