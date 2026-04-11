@@ -1,7 +1,7 @@
 ---
 marp: true
 theme: summit-2026
-paginate: true
+paginate: false
 title: Stop Hand-Rolling Chocolate
 author: Gilbert Sanchez
 ---
@@ -23,7 +23,7 @@ author: Gilbert Sanchez
 <!-- _class: sponsors -->
 <!-- _paginate: skip -->
 
-# Thanks!
+# Thanks
 
 ---
 
@@ -55,7 +55,7 @@ and then run that one." Yeah. That's what we're fixing today.
 <!-- class: centered -->
 # "Back in my day..."
 
-## The year is 2013...
+## The year is 2013
 
 <!--
 Panning shot to a young and eager Gilbert ripsticking down the hallway....
@@ -90,7 +90,7 @@ That doesn't scale. It barely works at 10 packages.
 
 ---
 
-## Except your devs are on **Macs**.
+## Except your devs are on **Macs**
 
 * File locking differently
 * Windows-specific paths, encodings, behaviors
@@ -172,7 +172,7 @@ The nuspec is just XML. The install script is just PowerShell.
 
 ## The Two Files That Matter: Installer
 
-**tools/chocolateyInstall.ps1** — _what_ it does
+**tools/chocolateyInstall.ps1** — _how_ it installs
 
 ```powershell
 $packageArgs = @{
@@ -217,6 +217,7 @@ mycompany-hooks/
 
 <!--
 Speaker notes:
+<pre|post>-<install|beforemodify|uninstall>-<packageID>.ps1
 Extensions let you ship helper functions any package in your environment can call —
 your CDN wrapper, your logging, your compliance checks.
 Hooks fire around every single install without the package author doing anything.
@@ -331,7 +332,7 @@ Speaker notes:
 The dependency graph means you never think about order again.
 Want to just repack without re-running tests? Invoke-psake -taskList Pack.
 The exact same command you just ran at your desk is what GitHub Actions will run.
-No wrapper scripts. No drift. If it passes locally, it passes in CI.
+No drift. If it passes locally, it passes in CI.
 That's the boring reliability we want.
 Now — let me show you why this matters when your infrastructure
 is more complicated than a single package. The Brazil story.
@@ -415,9 +416,9 @@ Demo script:
 
 | Step | What it does |
 |---|---|
-| `Invoke-psake Test` | Runs Pester tests against the package |
-| `Invoke-psake Pack` | Builds the `.nupkg` |
-| `Invoke-psake Push` | Publishes — but only from main |
+| `.\build.ps1 -Task Test` | Runs Pester tests against the package |
+| `.\build.ps1 -Task Pack` | Builds the `.nupkg` |
+| `.\build.ps1 -Task Push` | Publishes — but only from main |
 | CI workflow | Validates + tests every PR |
 | Publish workflow | Auto-publishes on merge |
 
