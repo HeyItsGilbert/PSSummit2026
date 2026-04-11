@@ -87,8 +87,11 @@ function Copy-DeckAssets {
   # Always copy Background.png if it exists in repo root
   @(
     'Background.png',
-    'powershell-summit-logo.png',
     'cc-by-sa.png',
+    'date.png',
+    'powershell-logo.png',
+    'powershell-summit-logo-top-left.png',
+    'powershell-summit-logo.png',
     'PSHSummit26-Sponsors.png'
   ) | ForEach-Object {
     $bgPath = Join-Path $RootDir $_
