@@ -837,6 +837,54 @@ section.big-statement em {
   color: var(--accent);
 }
 
+/* ---------- Big-statement-invert section-break slides ---------- */
+section.big-statement-invert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--bg);
+  background-image:
+    url('powershell-summit-logo.png'),
+    url('cc-by-sa.png');
+  background-position:
+    top 20px right 20px,
+    bottom 20px left 20px;
+  background-size:
+    auto 56px,
+    auto 40px;
+  background-repeat: no-repeat, no-repeat;
+}
+
+section.big-statement-invert h1 {
+  background: var(--fg);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+section.big-statement-invert h2 {
+  background: var(--quaternary-color);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+section.big-statement-invert p {
+  color: var(--muted);
+}
+
+section.big-statement-invert em {
+  color: var(--accent);
+}
+
 /* ---------- Print tweaks ---------- */
 @page {
   size: 1280px 720px;

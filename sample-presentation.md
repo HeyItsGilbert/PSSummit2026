@@ -96,6 +96,19 @@ You can use all official PowerShell Summit colors:
 
 ---
 
+<!-- _class: big-statement -->
+
+# Big Statement
+
+---
+
+<!-- _class: big-statement-invert -->
+
+# Big Statement Invert
+
+---
+
+
 # Callout Variations
 
 <div class="callout primary">
