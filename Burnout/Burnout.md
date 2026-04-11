@@ -1,10 +1,10 @@
 ---
 marp: true
 theme: summit-2026
-paginate: true
+paginate: false
 ---
 <!-- _class: title -->
-# FROM BURNOUT TO <br/>BUILT-TO-LAST
+# From Burnout To <br/>Built-To-Last
 
 ## <span class="purple-text">The Open Source Org Advantage</span>
 
