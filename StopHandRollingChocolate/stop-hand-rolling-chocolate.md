@@ -144,8 +144,7 @@ mypackage/
 _That's the whole package._
 
 <!--
-GOAL: 7m mark
-Speaker notes:
+7m mark - 2:07p
 choco new scaffolds everything for you. The nuspec is your package manifest —
 name, version, dependencies. The install script is PowerShell that runs when
 someone does choco install. Two files that matter. That's the whole mental model.
@@ -165,7 +164,6 @@ someone does choco install. Two files that matter. That's the whole mental model
 </metadata>
 ```
 <!--
-Speaker notes:
 The nuspec is just XML. The install script is just PowerShell.
 -->
 ---
@@ -184,7 +182,6 @@ Install-ChocolateyPackage @packageArgs
 ```
 
 <!--
-Speaker notes:
 Install-ChocolateyPackage handles downloads, checksums, and silent installs.
 If you know PowerShell, you already know how to write this.
 No Chocolatey-specific magic. Just PowerShell with convenience functions on top.
@@ -218,8 +215,6 @@ mycompany-hooks/
 <!--
 Speaker notes:
 <pre|post>-<install|beforemodify|uninstall>-<packageID>.ps1
-Extensions let you ship helper functions any package in your environment can call —
-your CDN wrapper, your logging, your compliance checks.
 Hooks fire around every single install without the package author doing anything.
 Install your hook package once, and it runs everywhere.
 We'll come back to this with a real example in a minute.
@@ -227,8 +222,6 @@ We'll come back to this with a real example in a minute.
 
 ---
 <!-- _class: big-statement -->
-
-<!-- Act 3: psake enters the chat -->
 
 ![bg right contain](psake-logo.svg)
 
@@ -239,7 +232,7 @@ We'll come back to this with a real example in a minute.
 That's it. PowerShell Tasks.
 
 <!--
-GOAL: 13-15m
+13-15m mark ~ 2:15pm
 Speaker notes:
 psake — pronounced "sake" like the Japanese rice wine, not "p-sake" —
 is a build automation tool written in PowerShell. Think Make or Rake,
@@ -271,12 +264,11 @@ No context switch. No new mental model. Just PowerShell.
 _Every step is a chance for someone to skip it._
 
 <!--
-Speaker notes:
 Show of hands — who has a README like this?
+
 The problem isn't the steps. The steps are fine. The problem is that
 the steps live in a document nobody reads until something breaks.
-Manual processes have a half-life. The person who wrote the README leaves,
-the README gets stale, and suddenly nobody knows what order things run in.
+
 That's not a people problem. That's an automation problem.
 -->
 
@@ -301,10 +293,11 @@ Task Push -depends Pack -precondition { $env:GITHUB_REF -eq 'refs/heads/main' } 
 ```
 
 <!--
-Speaker notes:
-This is the translation moment. Every sticky note becomes a declared task.
-Every "don't forget" becomes a dependency. The precondition on Push means
+Every "don't forget" becomes a dependency.
+
+The precondition on Push means
 it simply won't run unless you're on main — no human judgement required.
+
 Notice the descriptions — that's what shows up in Invoke-psake -docs.
 Your build script is now self-documenting. Sarah doesn't need to read the README.
 -->
@@ -328,15 +321,28 @@ Run just tests: `Invoke-psake -taskList Test`
 _Same command. Local or CI. No surprises._
 
 <!--
-Speaker notes:
 The dependency graph means you never think about order again.
+
 Want to just repack without re-running tests? Invoke-psake -taskList Pack.
 The exact same command you just ran at your desk is what GitHub Actions will run.
 No drift. If it passes locally, it passes in CI.
-That's the boring reliability we want.
+
 Now — let me show you why this matters when your infrastructure
 is more complicated than a single package. The Brazil story.
 -->
+
+---
+
+<!-- _class: big-statement -->
+
+# The Brazil Story
+
+<!---
+Small office. Bad connection. 200mb Office Killed.
+
+CDN was in DC's.
+
+--->
 
 ---
 
@@ -360,11 +366,7 @@ function Get-PackageFromCDN {
 _Every package calls `Get-PackageFromCDN`. Nobody hard-codes the CDN._
 
 <!--
-Speaker notes:
-At Meta, packages were pulling from origin servers in the US.
-For our São Paulo office — limited bandwidth, latency, the works —
-this meant slow installs, corrupted downloads, and POSIX file locking bugs
-that were genuinely maddening to debug at 2am.
+
 We put all of that CDN routing logic into an extension.
 One module. One place to fix. One place to improve.
 Teams writing packages didn't need to know any of it existed.
@@ -385,9 +387,8 @@ in one module, not scattered across hundreds of install scripts.
 _Blank repo → published, tested, CI-backed package._
 
 <!--
-GOAL: 20-25m mark
-Speaker notes:
-Okay — slides step aside. Let's actually do the thing.
+25-30m - 2:30
+
 Here's what we're going to build in the next 20 minutes:
 A GitHub repo with a Chocolatey package, a psakefile that validates,
 tests, and packs it, and GitHub Actions workflows that run CI on PRs
