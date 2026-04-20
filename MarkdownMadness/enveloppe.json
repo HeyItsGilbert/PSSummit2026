@@ -1,0 +1,107 @@
+{
+  "github": {
+    "branch": "main",
+    "automaticallyMergePR": true,
+    "dryRun": {
+      "enable": false,
+      "folderName": "github-publisher"
+    },
+    "api": {
+      "tiersForApi": "Github Free/Pro/Team (default)",
+      "hostname": ""
+    },
+    "workflow": {
+      "commitMessage": "PUBLISHER",
+      "name": ""
+    },
+    "verifiedRepo": true
+  },
+  "upload": {
+    "behavior": "obsidian",
+    "defaultName": "content",
+    "rootFolder": "docs",
+    "yamlFolderKey": "category",
+    "frontmatterTitle": {
+      "enable": true,
+      "key": "filename"
+    },
+    "replaceTitle": [],
+    "replacePath": [],
+    "autoclean": {
+      "includeAttachments": true,
+      "enable": true,
+      "excluded": [
+        "docs/assets/js",
+        "docs/assets/meta",
+        "docs/assets/css",
+        "tags.md"
+      ]
+    },
+    "folderNote": {
+      "enable": true,
+      "rename": "_index.md",
+      "addTitle": {
+        "enable": true,
+        "key": "title"
+      }
+    },
+    "metadataExtractorPath": "",
+    "subFolder": ""
+  },
+  "conversion": {
+    "hardbreak": true,
+    "dataview": true,
+    "censorText": [],
+    "tags": {
+      "inline": false,
+      "exclude": [],
+      "fields": []
+    },
+    "links": {
+      "internal": false,
+      "unshared": false,
+      "wiki": false,
+      "wikiDisplayText": false,
+      "slugify": false,
+      "unlink": false,
+      "relativePath": true,
+      "textPrefix": "/",
+      "slugifyAnchor": "disable"
+    }
+  },
+  "embed": {
+    "attachments": true,
+    "overrideAttachments": [],
+    "keySendFile": [
+      "image"
+    ],
+    "notes": true,
+    "folder": "docs/assets/img",
+    "convertEmbedToLinks": "bake",
+    "charConvert": "->",
+    "unHandledObsidianExt": [],
+    "sendSimpleLinks": true,
+    "forcePush": true,
+    "bake": {
+      "textBefore": "> ",
+      "textAfter": "- From [[{{url}}|{{title}}]]"
+    },
+    "useObsidianFolder": true
+  },
+  "plugin": {
+    "shareKey": "share",
+    "excludedFolder": [],
+    "copyLink": {
+      "enable": false,
+      "links": "",
+      "removePart": [],
+      "addCmd": false,
+      "transform": {
+        "toUri": true,
+        "slugify": "lower",
+        "applyRegex": []
+      }
+    },
+    "setFrontmatterKey": "Set"
+  }
+}
