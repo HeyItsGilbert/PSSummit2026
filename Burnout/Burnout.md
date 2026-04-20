@@ -84,7 +84,7 @@ Contributed to open source projects?
 
 ---
 
-![bg left](aig459.gif)
+![bg left](this-is-fine.gif)
 
 # Dopamine
 
@@ -141,7 +141,7 @@ For those who aren't familiar, the "bus factor" is the idea that if someone wher
 
 # Value of Organizations
 
-![bg](image-4.png)
+![bg](silhouette-sunset.png)
 
 <!--
 Photo by <a href="https://unsplash.com/@nataliepedigo?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Natalie Pedigo</a> on <a href="https://unsplash.com/photos/silhouette-of-people-standing-on-highland-during-golden-hours-wJK9eTiEZHY?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
@@ -190,7 +190,7 @@ Transition: My first project was documentation.
 
 # GitHub obv...
 
-![GitHub screenshot](image-2.png)
+![GitHub screenshot](github-new-org-menu.png)
 
 ---
 
@@ -204,7 +204,7 @@ Transition: My first project was documentation.
 
 # Keys to the Castle
 
-![1Password w:300](1Password.png)
+![1Password w:300](1password-logo.png)
 
 - Team Account
 - Not associated with Commercial Activity
@@ -220,7 +220,7 @@ All on Github
 
 # Funding: OpenCollective
 
-![Public Transactions](image-1.png)
+![Public Transactions](opencollective-budget.png)
 
 <!---
 First learned about it via Pester
@@ -239,7 +239,7 @@ First learned about it via Pester
 
 ---
 
-![Psake.dev bg](image-3.png)
+![Psake.dev bg](psake-dev-homepage.png)
 
 ---
 
