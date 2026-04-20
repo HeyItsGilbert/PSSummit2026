@@ -35,8 +35,9 @@ Key Take-Aways from your session:
 
 # Agenda
 
-- Slides
-- 10m Break
+- Markup? Markdown?
+- Static Sites
+- Tools
 - Demos
 - Q&A
 
@@ -60,7 +61,7 @@ requests.
 <!-- _class: sponsors -->
 <!-- _paginate: skip -->
 
-# Thanks!
+# Thanks
 
 ---
 
@@ -151,11 +152,11 @@ header: ''
 _footer: 'https://xkcd.com/927/'
 -->
 
-![bg contain](image.png)
+![bg contain](xkcd-standards.png)
 
 ---
 
-# Hello world time!
+# Hello world time
 
 <div class="columns">
 <div>
@@ -304,7 +305,7 @@ MDX lets you embed interactive components in your docs.
 
 VSCode Extension to punches above it's weight class.
 
-![screenshot of frontmatter CMS](image-1.png)
+![screenshot of frontmatter CMS](frontmatter-cms-screenshot.png)
 
 ---
 
@@ -332,15 +333,6 @@ Goal: 25m - ~11a
 - Cloudflare
 - Vercel
 - So many more...
-
----
-
-<!-- _class: big-statement -->
-# Break Time  - 10m
-
-```powershell
-Start-Sleep -Minutes 10
-```
 
 ---
 
